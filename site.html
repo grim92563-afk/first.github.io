@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оружейная хоккеиста</title>
+    <style>
+        /* CSS переменные для светлой темы (по умолчанию) */
+        :root {
+            --bg-color: #fafafa;
+            --text-color: #333;
+            --header-bg: #1e2b3a;
+            --header-text: #ffffff;
+            --header-link-hover: #ffc107;
+            --card-bg: #ffffff;
+            --card-text: #333;
+            --card-shadow: rgba(0,0,0,0.08);
+            --card-shadow-hover: rgba(0,0,0,0.15);
+            --benefits-bg: #f0f4f8;
+            --benefit-bg: #ffffff;
+            --review-bg: #ffffff;
+            --review-border: #ffc107;
+            --footer-bg: #1e2b3a;
+            --footer-text: #ffffff;
+            --footer-form-bg: rgba(255,255,255,0.05);
+            --footer-input-bg: #2c3e50;
+            --button-bg: #1e2b3a;
+            --button-text: #ffffff;
+            --button-hover-bg: #ffc107;
+            --button-hover-text: #1e2b3a;
+            --accent: #ffc107;
+            --price-old-color: #999;
+            --price-new-color: #e63946;
+            --price-regular-color: #1e2b3a;
+            --rating-color: #ffc107;
+            --reviews-count-color: #777;
+            --faq-border: #ddd;
+            --faq-hover: #f5f5f5;
+            --faq-answer-bg: #fafafa;
+            --modal-overlay: rgba(0,0,0,0.5);
+            --modal-bg: #ffffff;
+            --modal-text: #333;
+            --modal-close: #999;
+            --modal-close-hover: #333;
+            --error-color: #e63946;
+        }
+
+        /* Темная тема */
+        .dark-theme {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #0a0a0a;
+            --header-text: #e0e0e0;
+            --header-link-hover: #ffc107;
+            --card-bg: #1e1e1e;
+            --card-text: #e0e0e0;
+            --card-shadow: rgba(255,255,255,0.05);
+            --card-shadow-hover: rgba(255,255,255,0.1);
+            --benefits-bg: #1a1a1a;
+            --benefit-bg: #2a2a2a;
+            --review-bg: #2a2a2a;
+            --review-border: #ffc107;
+            --footer-bg: #0a0a0a;
+            --footer-text: #e0e0e0;
+            --footer-form-bg: rgba(255,255,255,0.1);
+            --footer-input-bg: #333;
+            --button-bg: #333;
+            --button-text: #e0e0e0;
+            --button-hover-bg: #ffc107;
+            --button-hover-text: #0a0a0a;
+            --accent: #ffc107;
+            --price-old-color: #888;
+            --price-new-color: #ff6b6b;
+            --price-regular-color: #ffc107;
+            --rating-color: #ffc107;
+            --reviews-count-color: #aaa;
+            --faq-border: #444;
+            --faq-hover: #2a2a2a;
+            --faq-answer-bg: #2a2a2a;
+            --modal-overlay: rgba(0,0,0,0.7);
+            --modal-bg: #2a2a2a;
+            --modal-text: #e0e0e0;
+            --modal-close: #aaa;
+            --modal-close-hover: #ffc107;
+            --error-color: #ff6b6b;
+        }
+
+        /* Базовый сброс и шрифты */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Шапка */
+        .header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header__logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header__nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .header__nav-list {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .header__nav-link {
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .header__nav-link:hover {
+            color: var(--header-link-hover);
+        }
+
+        /* Корзина в навигации */
+        .nav__cart {
+            margin-left: 0.5rem;
+        }
+
+        .cart-link {
+            display: flex;
+            align-items: center;
+            position: relative;
+            font-size: 1.5rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: var(--accent);
+            color: #1e2b3a;
+            font-size: 0.7rem;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        /* Переключатель темы */
+        .nav__theme {
+            margin-left: 0.5rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--header-text);
+            padding: 0 5px;
+            transition: transform 0.2s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Кнопка открытия модалки */
+        .nav__contact {
+            margin-left: 0.5rem;
+        }
+
+        .contact-btn {
+            background: var(--accent);
+            color: #1e2b3a;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 1rem;
+        }
+
+        .contact-btn:hover {
+            background-color: #e0a800;
+        }
+
+        /* Бургер-меню */
+        .burger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .burger__line {
+            width: 25px;
+            height: 3px;
+            background-color: var(--header-text);
+            margin: 3px 0;
+            border-radius: 2px;
+        }
+
+        /* Основной контейнер */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero секция */
+        .hero {
+            background: linear-gradient(135deg, #0b2b40 0%, #1e4b6a 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .hero__title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero__button {
+            background-color: var(--accent);
+            color: #1e2b3a;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+
+        .hero__button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Популярные товары */
+        .popular-products {
+            margin-bottom: 3rem;
+        }
+
+        .popular-products__title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .popular-products__title::after {
+            content: '';
+            display: block;
+            width: 70%;
+            height: 4px;
+            background-color: var(--accent);
+            margin-top: 8px;
+        }
+
+        .popular-products__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            color: var(--card-text);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--card-shadow);
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s, color 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--card-shadow-hover);
+        }
+
+        .product-card__image {
+            background-color: #eef2f7;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card__badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #ff4d4d;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .product-card__badge--hit {
+            background-color: var(--accent);
+            color: #1e2b3a;
+        }
+
+        .product-card__badge--sale {
+            background-color: #ff4d4d;
+        }
+
+        .product-card__title {
+            font-size: 1.3rem;
+            margin: 1rem 1rem 0.5rem;
+            font-weight: 600;
+        }
+
+        .product-card__rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 1rem 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .product-card__stars {
+            color: var(--rating-color);
+            letter-spacing: 2px;
+        }
+
+        .product-card__reviews-count {
+            color: var(--reviews-count-color);
+            font-size: 0.85rem;
+        }
+
+        .product-card__price-block {
+            margin: 0 1rem 1rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .product-card__price-old {
+            font-size: 1rem;
+            color: var(--price-old-color);
+            text-decoration: line-through;
+        }
+
+        .product-card__price-new {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--price-new-color);
+        }
+
+        .product-card__price-regular {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--price-regular-color);
+        }
+
+        .product-card__button {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            padding: 0.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 1rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .product-card__button:hover {
+            background-color: var(--button-hover-bg);
+            color: var(--button-hover-text);
+        }
+
+        /* Преимущества */
+        .benefits {
+            background-color: var(--benefits-bg);
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            transition: background-color 0.3s;
+        }
+
+        .benefits__title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .benefits__list {
+            display: flex;
+            justify-content: space-around;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .benefit {
+            flex: 1 1 250px;
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--benefit-bg);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: background-color 0.3s;
+        }
+
+        .benefit__icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit__title {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-color);
+        }
+
+        .benefit__text {
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* Отзывы */
+        .reviews {
+            margin-bottom: 3rem;
+        }
+
+        .reviews__title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .reviews__list {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .review {
+            flex: 1 1 300px;
+            background: var(--review-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--card-shadow);
+            border-left: 4px solid var(--review-border);
+            transition: background-color 0.3s;
+        }
+
+        .review__text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .review__author {
+            font-weight: 600;
+            color: var(--text-color);
+            display: block;
+            text-align: right;
+        }
+
+        /* FAQ аккордеон */
+        .faq {
+            margin-bottom: 3rem;
+        }
+
+        .faq__title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .accordion {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--faq-border);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-question {
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .accordion-question:hover {
+            background-color: var(--faq-hover);
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            font-size: 1rem;
+            color: var(--accent);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: var(--faq-answer-bg);
+            padding: 0 1.2rem;
+            color: var(--text-color);
+        }
+
+        .accordion-item.active .accordion-answer {
+            max-height: 300px;
+            padding: 1.2rem;
+        }
+
+        /* Счетчик кликов */
+        .click-counter {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            text-align: center;
+            box-shadow: 0 5px 15px var(--card-shadow);
+            transition: background-color 0.3s;
+        }
+
+        .click-counter__title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .click-counter__display {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .click-counter__buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .click-counter__btn {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .click-counter__btn:hover {
+            background-color: var(--button-hover-bg);
+            color: var(--button-hover-text);
+        }
+
+        .click-counter__btn--reset {
+            background-color: #e63946;
+        }
+
+        .click-counter__btn--reset:hover {
+            background-color: #c82333;
+            color: white;
+        }
+
+        /* Классы для счетчика */
+        .color-blue {
+            color: blue !important;
+        }
+
+        .color-red {
+            color: red !important;
+        }
+
+        .shake {
+            animation: shake 0.5s infinite;
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Галерея */
+        .gallery-section {
+            margin-bottom: 3rem;
+        }
+
+        .gallery-section__title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-thumb {
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px var(--card-shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-thumb:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px var(--card-shadow-hover);
+        }
+
+        .gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Модальное окно галереи */
+        .gallery-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .gallery-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .gallery-modal {
+            background-color: var(--modal-bg);
+            border-radius: 12px;
+            padding: 1rem;
+            max-width: 900px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .gallery-modal__close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--modal-close);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background-color 0.2s;
+        }
+
+        .gallery-modal__close:hover {
+            background-color: var(--modal-close-hover);
+        }
+
+        .gallery-modal__image-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-modal__image {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 4px;
+        }
+
+        .gallery-modal__nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+            z-index: 10;
+        }
+
+        .gallery-modal__nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .gallery-modal__nav--prev {
+            left: 10px;
+        }
+
+        .gallery-modal__nav--next {
+            right: 10px;
+        }
+
+        .gallery-modal__counter {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: var(--modal-text);
+            font-size: 0.9rem;
+        }
+
+        /* Подвал */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .footer__info {
+            flex: 1 1 250px;
+        }
+
+        .footer__copyright {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .footer__links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer__link {
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer__link:hover {
+            color: var(--accent);
+        }
+
+        .footer__contact-form {
+            flex: 2 1 400px;
+            background-color: var(--footer-form-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .footer__form-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer__form-group {
+            margin-bottom: 1rem;
+        }
+
+        .footer__form-input,
+        .footer__form-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--footer-input-bg);
+            color: var(--footer-text);
+            font-family: inherit;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .footer__form-input::placeholder,
+        .footer__form-textarea::placeholder {
+            color: #aaa;
+        }
+
+        .footer__form-input:focus,
+        .footer__form-textarea:focus {
+            outline: 2px solid var(--accent);
+        }
+
+        .footer__form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .footer__form-button {
+            background-color: var(--accent);
+            color: #1e2b3a;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .footer__form-button:hover {
+            background-color: #e0a800;
+        }
+
+        /* Модальное окно контактной формы */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-overlay);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: var(--modal-bg);
+            color: var(--modal-text);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal__close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--modal-close);
+            transition: color 0.2s;
+        }
+
+        .modal__close:hover {
+            color: var(--modal-close-hover);
+        }
+
+        .modal__title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .modal__form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .modal__form-input,
+        .modal__form-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--faq-border);
+            border-radius: 4px;
+            background-color: var(--modal-bg);
+            color: var(--modal-text);
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .modal__form-input:focus,
+        .modal__form-textarea:focus {
+            outline: 2px solid var(--accent);
+            border-color: transparent;
+        }
+
+        .modal__form-input.error,
+        .modal__form-textarea.error {
+            border-color: var(--error-color);
+            border-width: 2px;
+        }
+
+        .modal__error {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            min-height: 1.2rem;
+        }
+
+        .modal__form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal__submit {
+            background-color: var(--accent);
+            color: #1e2b3a;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+
+        .modal__submit:hover {
+            background-color: #e0a800;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header {
+                flex-wrap: nowrap;
+                padding: 1rem;
+            }
+            .header__nav {
+                order: 3;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            .header__nav-list {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+                display: none; /* Скрыто для мобильной версии, будет открываться бургером */
+            }
+            .burger {
+                display: flex;
+                margin-left: auto;
+            }
+            .header__logo {
+                font-size: 1.5rem;
+            }
+            .hero__title {
+                font-size: 1.8rem;
+            }
+            .footer {
+                flex-direction: column;
+            }
+            .footer__info {
+                text-align: center;
+            }
+            .footer__links {
+                justify-content: center;
+            }
+            .contact-btn {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            .gallery-modal__nav {
+                width: 36px;
+                height: 36px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header class="header">
+        <h1 class="header__logo" id="mainTitle">Добро пожаловать</h1>
+        
+        <!-- Бургер-меню (иконка для мобильных) -->
+        <div class="burger" aria-label="Меню" role="button" tabindex="0">
+            <div class="burger__line"></div>
+            <div class="burger__line"></div>
+            <div class="burger__line"></div>
+        </div>
+
+        <nav class="header__nav">
+            <ul class="header__nav-list">
+                <li class="header__nav-item"><a href="#" class="header__nav-link">Главная</a></li>
+                <li class="header__nav-item"><a href="#" class="header__nav-link">Каталог</a></li>
+                <li class="header__nav-item"><a href="#" class="header__nav-link">Доставка</a></li>
+                <li class="header__nav-item"><a href="#" class="header__nav-link">Контакты</a></li>
+                <!-- Кнопка открытия модалки -->
+                <li class="header__nav-item nav__contact">
+                    <button class="contact-btn" id="contactBtn">Связаться</button>
+                </li>
+                <!-- Переключатель темы -->
+                <li class="header__nav-item nav__theme">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙</button>
+                </li>
+                <!-- Корзина -->
+                <li class="header__nav-item nav__cart">
+                    <a href="#" class="cart-link" aria-label="Корзина">
+                        🛒
+                        <span class="cart-count">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="main">
+        <!-- Герой-секция -->
+        <section class="hero">
+            <h2 class="hero__title">Добро пожаловать в оружейную хоккеиста</h2>
+            <button class="hero__button" id="magicButton">Смотреть новинки</button>
+        </section>
+
+        <!-- Популярные товары -->
+        <section class="popular-products">
+            <h2 class="popular-products__title">Популярные клюшки</h2>
+            <div class="popular-products__grid">
+                <!-- Карточка товара 1 (акция, хит) -->
+                <article class="product-card">
+                    <div class="product-card__image">
+                        <img src="https://www.ledovy.ru/upload/images/klyushka-bauer-supreme-1s-se-sr-800.jpg" alt="Хоккейная клюшка Bauer Supreme">
+                        <span class="product-card__badge product-card__badge--hit">Хит</span>
+                    </div>
+                    <h3 class="product-card__title">Клюшка Bauer Supreme</h3>
+                    <div class="product-card__rating">
+                        <span class="product-card__stars">★★★★★</span>
+                        <span class="product-card__reviews-count">(24 отзыва)</span>
+                    </div>
+                    <div class="product-card__price-block">
+                        <span class="product-card__price-old">15 990 ₽</span>
+                        <span class="product-card__price-new">12 990 ₽</span>
+                    </div>
+                    <button class="product-card__button">В корзину</button>
+                </article>
+                <!-- Карточка товара 2 (акция, -15%) -->
+                <article class="product-card">
+                    <div class="product-card__image">
+                        <img src="https://ccm.ru/upload/iblock/d06/aj2sdwpbhoszp9zza0e8aoluaipbz65y/HSJS7Y_YT_01.png" alt="Хоккейная клюшка CCM Jetspeed">
+                        <span class="product-card__badge product-card__badge--sale">-15%</span>
+                    </div>
+                    <h3 class="product-card__title">Клюшка CCM Jetspeed</h3>
+                    <div class="product-card__rating">
+                        <span class="product-card__stars">★★★★☆</span>
+                        <span class="product-card__reviews-count">(18 отзывов)</span>
+                    </div>
+                    <div class="product-card__price-block">
+                        <span class="product-card__price-old">16 500 ₽</span>
+                        <span class="product-card__price-new">14 500 ₽</span>
+                    </div>
+                    <button class="product-card__button">В корзину</button>
+                </article>
+                <!-- Карточка товара 3 (обычная цена, хит) -->
+                <article class="product-card">
+                    <div class="product-card__image">
+                        <img src="https://reeform.ru/wa-data/public/shop/products/18/52/15218/images/3899/3899.970.jpg" alt="Хоккейная клюшка Warrior Covert">
+                        <span class="product-card__badge product-card__badge--hit">Хит</span>
+                    </div>
+                    <h3 class="product-card__title">Клюшка Warrior Covert</h3>
+                    <div class="product-card__rating">
+                        <span class="product-card__stars">★★★★★</span>
+                        <span class="product-card__reviews-count">(32 отзыва)</span>
+                    </div>
+                    <div class="product-card__price-block">
+                        <span class="product-card__price-regular">11 200 ₽</span>
+                    </div>
+                    <button class="product-card__button">В корзину</button>
+                </article>
+                <!-- Карточка товара 4 (обычная цена) -->
+                <article class="product-card">
+                    <div class="product-card__image">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOcGNP44clOSf73D1qiRb66JaJoptB7hQ6KA&s" alt="Хоккейная клюшка STX Stallion">
+                        <!-- без бейджа -->
+                    </div>
+                    <h3 class="product-card__title">Клюшка STX Stallion</h3>
+                    <div class="product-card__rating">
+                        <span class="product-card__stars">★★★☆☆</span>
+                        <span class="product-card__reviews-count">(7 отзывов)</span>
+                    </div>
+                    <div class="product-card__price-block">
+                        <span class="product-card__price-regular">13 300 ₽</span>
+                    </div>
+                    <button class="product-card__button">В корзину</button>
+                </article>
+                <!-- Карточка товара 5 (акция, новинка) -->
+                <article class="product-card">
+                    <div class="product-card__image">
+                        <img src="https://hockeyshop24.ru/image/cache/catalog/klushki/True/2022-2023/catalyst-9x3-sr/true-hockey-stick-catalyst-9x3-sr-700x700-500x500.jpg" alt="Хоккейная клюшка True Catalyst">
+                        <span class="product-card__badge product-card__badge--sale">Акция</span>
+                    </div>
+                    <h3 class="product-card__title">Клюшка True Catalyst</h3>
+                    <div class="product-card__rating">
+                        <span class="product-card__stars">★★★★☆</span>
+                        <span class="product-card__reviews-count">(11 отзывов)</span>
+                    </div>
+                    <div class="product-card__price-block">
+                        <span class="product-card__price-old">18 200 ₽</span>
+                        <span class="product-card__price-new">15 800 ₽</span>
+                    </div>
+                    <button class="product-card__button">В корзину</button>
+                </article>
+                <!-- Карточка товара 6 (обычная цена, хит) -->
+                <article class="product-card">
+                    <div class="product-card__image">
+                        <img src="https://hockeymall.ru/wa-data/public/shop/products/37/48/4837/images/31663/31663.1000x0.jpg" alt="Хоккейная клюшка Fischer">
+                        <span class="product-card__badge product-card__badge--hit">Хит</span>
+                    </div>
+                    <h3 class="product-card__title">Клюшка Fischer</h3>
+                    <div class="product-card__rating">
+                        <span class="product-card__stars">★★★★☆</span>
+                        <span class="product-card__reviews-count">(9 отзывов)</span>
+                    </div>
+                    <div class="product-card__price-block">
+                        <span class="product-card__price-regular">9 900 ₽</span>
+                    </div>
+                    <button class="product-card__button">В корзину</button>
+                </article>
+            </div>
+        </section>
+
+        <!-- Преимущества -->
+        <section class="benefits">
+            <h2 class="benefits__title">Почему выбирают нас</h2>
+            <div class="benefits__list">
+                <div class="benefit">
+                    <div class="benefit__icon">🏒</div>
+                    <h3 class="benefit__title">Только оригиналы</h3>
+                    <p class="benefit__text">Сертифицированные клюшки от ведущих брендов</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit__icon">🚚</div>
+                    <h3 class="benefit__title">Быстрая доставка</h3>
+                    <p class="benefit__text">Доставим по всей России за 2-3 дня</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit__icon">🔧</div>
+                    <h3 class="benefit__title">Гарантия качества</h3>
+                    <p class="benefit__text">Обмен и возврат без проблем</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Отзывы -->
+        <section class="reviews">
+            <h2 class="reviews__title">Отзывы покупателей</h2>
+            <div class="reviews__list">
+                <div class="review">
+                    <p class="review__text">«Отличная клюшка, легкая и удобная. Сразу почувствовал прогресс в броске!»</p>
+                    <cite class="review__author">— Александр, любитель</cite>
+                </div>
+                <div class="review">
+                    <p class="review__text">«Быстрая доставка, клюшка CCM превзошла ожидания. Спасибо!»</p>
+                    <cite class="review__author">— Дмитрий, игрок Ночной лиги</cite>
+                </div>
+                <div class="review">
+                    <p class="review__text">«Заказывал сыну, подобрали идеальный вариант по росту и жесткости. Рекомендую.»</p>
+                    <cite class="review__author">— Елена, мама юного хоккеиста</cite>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Аккордеон -->
+        <section class="faq">
+            <h2 class="faq__title">Часто задаваемые вопросы</h2>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-question">
+                        <span>Какие клюшки подходят для новичков?</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-answer">
+                        Для новичков мы рекомендуем клюшки с композитным или деревянным составом, средней жесткости. Они прощают ошибки и помогают быстрее освоить технику.
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-question">
+                        <span>Сколько времени занимает доставка?</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-answer">
+                        Доставка по Москве и Санкт-Петербургу занимает 1-2 дня, в регионы — от 3 до 7 дней в зависимости от удаленности. Отправляем всеми транспортными компаниями.
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-question">
+                        <span>Можно ли вернуть товар, если не подошел?</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-answer">
+                        Да, вы можете вернуть клюшку в течение 14 дней с момента покупки при сохранении товарного вида и упаковки. Обмен или возврат осуществляется без проблем.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Счетчик кликов -->
+        <section class="click-counter">
+            <h2 class="click-counter__title">Счетчик кликов</h2>
+            <div class="click-counter__display">
+                <span id="counter">0</span>
+            </div>
+            <div class="click-counter__buttons">
+                <button class="click-counter__btn" id="incrementBtn">Увеличить</button>
+                <button class="click-counter__btn click-counter__btn--reset" id="resetBtn">Сброс</button>
+            </div>
+        </section>
+
+        <!-- Галерея -->
+        <section class="gallery-section">
+            <h2 class="gallery-section__title">Фото клюшек</h2>
+            <div class="gallery-grid">
+                <div class="gallery-thumb" data-index="0">
+                    <img src="https://www.ledovy.ru/upload/images/klyushka-bauer-supreme-1s-se-sr-800.jpg?text=Клюшка+1" alt="Клюшка 1">
+                </div>
+                <div class="gallery-thumb" data-index="1">
+                    <img src="https://ccm.ru/upload/iblock/d06/aj2sdwpbhoszp9zza0e8aoluaipbz65y/HSJS7Y_YT_01.png?text=Клюшка+2" alt="Клюшка 2">
+                </div>
+                <div class="gallery-thumb" data-index="2">
+                    <img src="https://reeform.ru/wa-data/public/shop/products/18/52/15218/images/3899/3899.970.jpg?text=Клюшка+3" alt="Клюшка 3">
+                </div>
+                <div class="gallery-thumb" data-index="3">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOcGNP44clOSf73D1qiRb66JaJoptB7hQ6KA&s?text=Клюшка+4" alt="Клюшка 4">
+                </div>
+                <div class="gallery-thumb" data-index="4">
+                    <img src="https://hockeyshop24.ru/image/cache/catalog/klushki/True/2022-2023/catalyst-9x3-sr/true-hockey-stick-catalyst-9x3-sr-700x700-500x500.jpg?text=Клюшка+5" alt="Клюшка 5">
+                </div>
+                <div class="gallery-thumb" data-index="5">
+                    <img src="https://hockeymall.ru/wa-data/public/shop/products/37/48/4837/images/31663/31663.1000x0.jpg?text=Клюшка+6" alt="Клюшка 6">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="footer__info">
+            <p class="footer__copyright">&copy; 2025 Хоккейный арсенал. Все права защищены.</p>
+            <ul class="footer__links">
+                <li class="footer__link-item"><a href="#" class="footer__link">Политика конфиденциальности</a></li>
+                <li class="footer__link-item"><a href="#" class="footer__link">Публичная оферта</a></li>
+                <li class="footer__link-item"><a href="#" class="footer__link">Карта сайта</a></li>
+            </ul>
+        </div>
+
+        <!-- Контактная форма -->
+        <div class="footer__contact-form">
+            <h4 class="footer__form-title">Свяжитесь с нами</h4>
+            <form action="#" method="post">
+                <div class="footer__form-group">
+                    <input type="text" class="footer__form-input" placeholder="Ваше имя" aria-label="Ваше имя" required>
+                </div>
+                <div class="footer__form-group">
+                    <input type="email" class="footer__form-input" placeholder="Ваш Email" aria-label="Ваш Email" required>
+                </div>
+                <div class="footer__form-group">
+                    <textarea class="footer__form-textarea" placeholder="Ваше сообщение" aria-label="Ваше сообщение" required></textarea>
+                </div>
+                <button type="submit" class="footer__form-button">Отправить</button>
+            </form>
+        </div>
+    </footer>
+
+    <!-- Модальное окно контактной формы -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal__close" id="modalClose">&times;</button>
+            <h3 class="modal__title">Связаться с нами</h3>
+            <form id="contactForm">
+                <div class="modal__form-group">
+                    <input type="text" class="modal__form-input" placeholder="Ваше имя" id="modalName" required>
+                    <div class="modal__error" id="errorName"></div>
+                </div>
+                <div class="modal__form-group">
+                    <input type="email" class="modal__form-input" placeholder="Ваш Email" id="modalEmail" required>
+                    <div class="modal__error" id="errorEmail"></div>
+                </div>
+                <div class="modal__form-group">
+                    <textarea class="modal__form-textarea" placeholder="Ваше сообщение" id="modalMessage" required></textarea>
+                    <div class="modal__error" id="errorMessage"></div>
+                </div>
+                <button type="submit" class="modal__submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно галереи -->
+    <div class="gallery-modal-overlay" id="galleryModalOverlay">
+        <div class="gallery-modal">
+            <button class="gallery-modal__close" id="galleryModalClose">&times;</button>
+            <div class="gallery-modal__image-container">
+                <button class="gallery-modal__nav gallery-modal__nav--prev" id="galleryPrev">&#10094;</button>
+                <img class="gallery-modal__image" id="galleryModalImage" src="" alt="Большое изображение">
+                <button class="gallery-modal__nav gallery-modal__nav--next" id="galleryNext">&#10095;</button>
+            </div>
+            <div class="gallery-modal__counter" id="galleryCounter"></div>
+        </div>
+    </div>
+
+    <!-- Скрипты -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Магическая кнопка ---
+            const magicButton = document.getElementById('magicButton');
+            const mainTitle = document.getElementById('mainTitle');
+            if (magicButton && mainTitle) {
+                let isAlternate = false;
+                const originalText = mainTitle.textContent;
+
+                magicButton.addEventListener('click', function() {
+                    if (!isAlternate) {
+                        mainTitle.textContent = 'Привет, всем!';
+                        magicButton.style.backgroundColor = 'red';
+                    } else {
+                        mainTitle.textContent = originalText;
+                        magicButton.style.backgroundColor = 'yellow';
+                    }
+                    isAlternate = !isAlternate;
+                });
+            }
+
+            // --- Аккордеон FAQ ---
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            function closeAllAnswers() {
+                accordionItems.forEach(item => {
+                    item.classList.remove('active');
+                    const answer = item.querySelector('.accordion-answer');
+                    answer.style.maxHeight = null;
+                });
+            }
+
+            accordionItems.forEach(item => {
+                const question = item.querySelector('.accordion-question');
+                const answer = item.querySelector('.accordion-answer');
+
+                question.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    if (item.classList.contains('active')) {
+                        item.classList.remove('active');
+                        answer.style.maxHeight = null;
+                    } else {
+                        closeAllAnswers();
+                        item.classList.add('active');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // --- Счетчик кликов ---
+            const counterSpan = document.getElementById('counter');
+            const incrementBtn = document.getElementById('incrementBtn');
+            const resetBtn = document.getElementById('resetBtn');
+
+            let count = 0;
+
+            function updateCounter() {
+                counterSpan.textContent = count;
+
+                // Убираем все классы эффектов
+                counterSpan.classList.remove('color-blue', 'color-red', 'shake', 'pulse');
+
+                // Применяем эффекты в зависимости от значения
+                if (count >= 15) {
+                    counterSpan.classList.add('color-red', 'pulse');
+                } else if (count >= 10) {
+                    counterSpan.classList.add('color-blue', 'shake');
+                } else if (count >= 5) {
+                    counterSpan.classList.add('color-blue');
+                }
+                // иначе 0-4: без классов
+            }
+
+            incrementBtn.addEventListener('click', function() {
+                count++;
+                updateCounter();
+            });
+
+            resetBtn.addEventListener('click', function() {
+                count = 0;
+                updateCounter();
+            });
+
+            // --- Переключатель темы ---
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-theme');
+                themeToggle.textContent = '☀️';
+            } else {
+                themeToggle.textContent = '🌙';
+            }
+
+            themeToggle.addEventListener('click', function() {
+                if (body.classList.contains('dark-theme')) {
+                    body.classList.remove('dark-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.textContent = '🌙';
+                } else {
+                    body.classList.add('dark-theme');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.textContent = '☀️';
+                }
+            });
+
+            // --- Модальное окно с валидацией ---
+            const contactBtn = document.getElementById('contactBtn');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalClose = document.getElementById('modalClose');
+            const contactForm = document.getElementById('contactForm');
+            const modalName = document.getElementById('modalName');
+            const modalEmail = document.getElementById('modalEmail');
+            const modalMessage = document.getElementById('modalMessage');
+            const errorName = document.getElementById('errorName');
+            const errorEmail = document.getElementById('errorEmail');
+            const errorMessage = document.getElementById('errorMessage');
+
+            function openModal() {
+                modalOverlay.classList.add('active');
+                body.classList.add('modal-open');
+                clearErrors();
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                body.classList.remove('modal-open');
+                contactForm.reset();
+                clearErrors();
+            }
+
+            function clearErrors() {
+                [modalName, modalEmail, modalMessage].forEach(field => {
+                    field.classList.remove('error');
+                });
+                errorName.textContent = '';
+                errorEmail.textContent = '';
+                errorMessage.textContent = '';
+            }
+
+            function setError(field, errorElement, message) {
+                field.classList.add('error');
+                errorElement.textContent = message;
+            }
+
+            contactBtn.addEventListener('click', openModal);
+
+            modalClose.addEventListener('click', closeModal);
+
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                clearErrors();
+
+                const name = modalName.value.trim();
+                const email = modalEmail.value.trim();
+                const message = modalMessage.value.trim();
+
+                let isValid = true;
+
+                if (name.length < 2) {
+                    setError(modalName, errorName, 'Имя должно содержать минимум 2 символа');
+                    isValid = false;
+                }
+
+                const atIndex = email.indexOf('@');
+                const dotAfterAt = email.indexOf('.', atIndex + 2);
+                if (atIndex === -1 || dotAfterAt === -1) {
+                    setError(modalEmail, errorEmail, 'Введите корректный email (должен содержать @ и точку после @)');
+                    isValid = false;
+                }
+
+                if (message.length < 10) {
+                    setError(modalMessage, errorMessage, 'Сообщение должно быть не менее 10 символов');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    console.log('Отправка формы:', { name, email, message });
+                    alert('Форма отправлена');
+                    closeModal();
+                }
+            });
+
+            // --- Галерея ---
+            const galleryThumbs = document.querySelectorAll('.gallery-thumb');
+            const galleryModalOverlay = document.getElementById('galleryModalOverlay');
+            const galleryModalImage = document.getElementById('galleryModalImage');
+            const galleryPrev = document.getElementById('galleryPrev');
+            const galleryNext = document.getElementById('galleryNext');
+            const galleryClose = document.getElementById('galleryModalClose');
+            const galleryCounter = document.getElementById('galleryCounter');
+
+            // Массив изображений (можно заменить на реальные большие изображения)
+            const images = [
+                'https://via.placeholder.com/800x600?text=Клюшка+1+большая',
+                'https://via.placeholder.com/800x600?text=Клюшка+2+большая',
+                'https://via.placeholder.com/800x600?text=Клюшка+3+большая',
+                'https://via.placeholder.com/800x600?text=Клюшка+4+большая',
+                'https://via.placeholder.com/800x600?text=Клюшка+5+большая',
+                'https://via.placeholder.com/800x600?text=Клюшка+6+большая'
+            ];
+
+            let currentIndex = 0;
+
+            function openGallery(index) {
+                currentIndex = index;
+                updateGalleryImage();
+                galleryModalOverlay.classList.add('active');
+                body.classList.add('modal-open');
+                // Добавляем обработчик клавиш
+                document.addEventListener('keydown', handleGalleryKey);
+            }
+
+            function closeGallery() {
+                galleryModalOverlay.classList.remove('active');
+                body.classList.remove('modal-open');
+                document.removeEventListener('keydown', handleGalleryKey);
+            }
+
+            function updateGalleryImage() {
+                galleryModalImage.src = images[currentIndex];
+                galleryCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+            }
+
+            function showPrev() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateGalleryImage();
+            }
+
+            function showNext() {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateGalleryImage();
+            }
+
+            function handleGalleryKey(e) {
+                if (e.key === 'ArrowLeft') {
+                    showPrev();
+                } else if (e.key === 'ArrowRight') {
+                    showNext();
+                } else if (e.key === 'Escape') {
+                    closeGallery();
+                }
+            }
+
+            galleryThumbs.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => openGallery(index));
+            });
+
+            galleryPrev.addEventListener('click', showPrev);
+            galleryNext.addEventListener('click', showNext);
+            galleryClose.addEventListener('click', closeGallery);
+            galleryModalOverlay.addEventListener('click', function(e) {
+                if (e.target === galleryModalOverlay) {
+                    closeGallery();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
